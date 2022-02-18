@@ -9,7 +9,7 @@ Open a terminal, and type in:
 ## su ##
 Then, 
 type in:
-sudo usermod -a -G sudo $username
+## sudo usermod -a -G sudo $username ##
 (Replace $username with your username.)
 Then exit and log out and back in.
 

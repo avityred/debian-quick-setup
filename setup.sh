@@ -91,30 +91,32 @@ echo "Do you want to install themes? (y/n)"
 read themes
 
 if [ $themes = "y" ]
-
-echo "Do you want to install the premade theme pack? (y/n)"
-read themechoose
-
-if [ $themechoose = "1" ]
 then
-    git clone https://github.com/alvatip/Nordzy-cursors.git && git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-icon-theme.git
-    cd Nordzy-cursors
-    ./install.sh
-    cd ..
 
-    cd WhiteSur-gtk-theme
-    ./install.sh
-    cd ..
+    echo "Do you want to install the premade theme pack? (y/n)"
+    read themechoose
 
-    cd Colloid-gtk-theme
-    ./install.sh
-    cd ..
+    if [ $themechoose = "1" ]
+    then
+        git clone https://github.com/alvatip/Nordzy-cursors.git && git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-icon-theme.git
+        cd Nordzy-cursors
+        ./install.sh
+        cd ..
 
-    cd Colloid-icon-theme
-    ./install.sh
-    cd ..
+        cd WhiteSur-gtk-theme
+        ./install.sh
+        cd ..
 
-    rm -r Nordzy-cursors WhiteSur-gtk-theme Colloid-gtk-theme Colloid-icon-theme
+        cd Colloid-gtk-theme
+        ./install.sh
+        cd ..
+
+        cd Colloid-icon-theme
+        ./install.sh
+        cd ..
+
+        rm -r Nordzy-cursors WhiteSur-gtk-theme Colloid-gtk-theme Colloid-icon-theme
+    fi
 fi
 
 # Update system
