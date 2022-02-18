@@ -33,6 +33,28 @@ then
     echo "Finished."
 fi
 
+echo "Do you want to install a GUI software store? (y/n)"
+read softstore
+
+if [ $softstore = "y" ]
+then
+    sudo apt install gnome-software
+fi
+
+echo "Do you want to add support for flatpak? (y/n)"
+read flatpak
+
+if [ $flatpak = "y" ]
+then
+    sudo apt install flatpak
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+    if [ $softstore = "y" ]
+    then
+        sudo apt install gnome-software-plugin-flatpak
+    fi
+
+fi
 # Drivers
 
 echo "Do you want to also install GPU Drivers? (y/n)"
@@ -65,33 +87,34 @@ fi
 
 # Clone and install themes
 
-echo "Do you want to install some themes? (y/n)"
+echo "Do you want to install themes? (y/n)"
 read themes
 
 if [ $themes = "y" ]
+
+echo "Do you want to install the premade theme pack? (y/n)"
+read themechoose
+
+if [ $themechoose = "1" ]
 then
     git clone https://github.com/alvatip/Nordzy-cursors.git && git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-icon-theme.git
     cd Nordzy-cursors
     ./install.sh
     cd ..
-    rmdir -r Nordzy-cursors
 
     cd WhiteSur-gtk-theme
     ./install.sh
     cd ..
-    rmdir -r WhiteSur-gtk-theme
 
     cd Colloid-gtk-theme
     ./install.sh
     cd ..
-    rmdir -r Colloid-gtk-theme
 
     cd Colloid-icon-theme
     ./install.sh
     cd ..
-    rmdir -r Colloid-icon-theme
 
-    cd Repos
+    rm -r Nordzy-cursors WhiteSur-gtk-theme Colloid-gtk-theme Colloid-icon-theme
 fi
 
 # Update system
