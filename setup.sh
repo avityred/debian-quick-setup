@@ -1,3 +1,5 @@
+sudo apt install neofetch
+
 # Enable non-free repositories
 
 echo "Do you want to enable non-free repositories? (y/n)"
@@ -7,12 +9,15 @@ if [ $nonfree = "y" ]
 then
     echo "Enabling non-free repos."
     sudo apt-add-repository non-free
+    sudo apt update
     echo "Done."
 fi
 
 # Add 32-bit architecture
 
+echo "Enabling 32-bit support."
 sudo dpkg --add-architecture i386
+sudo apt update
 
 # Install apps
 
