@@ -1,5 +1,13 @@
-sudo apt install neofetch
+if ! command -v neofetch &> /dev/null
+then
+    sudo apt install neofetch
+fi
+
 clear
+
+# Errors
+
+inputError="Wrong input detected, please try again."
 
 # Enable non-free repositories
 
@@ -12,14 +20,32 @@ then
     sudo apt-add-repository non-free
     sudo apt update
     echo "Done."
+elif [ $nonfree = "n" ]
+then
+    echo "Skipping non-free repositories."
+    sleep 0.2
+else
+    echo $inputError
 fi
 
 # Add 32-bit architecture
 
 clear
-echo "Enabling 32-bit support."
-sudo dpkg --add-architecture i386
-sudo apt update
+
+echo "Do you want to enable 32-bit architecture support. (Recommended) (y/n)"
+read archt
+
+if [ $archt = "y" ]
+then
+    echo "Enabling 32-bit support."
+    sudo dpkg --add-architecture i386
+    sudo apt update
+elif [ $archt = "n" ]
+then
+    echo "Skipping 32-bit architecture support."
+else
+    echo $inputError
+fi
 
 # Install apps
 
@@ -36,6 +62,11 @@ then
     sudo apt install $apps
     clear
     echo "Finished."
+elif [ $appsan = "n" ]
+then
+    sleep 0.2
+else
+    echo $inputError
 fi
 
 clear
@@ -46,6 +77,11 @@ if [ $softstore = "y" ]
 then
     sudo apt install gnome-software
     clear
+elif [ $software = "n" ]
+then
+    echo "Skipping software store."
+else
+    echo $inputError
 fi
 
 clear
@@ -63,7 +99,11 @@ then
         sudo apt install gnome-software-plugin-flatpak
         clear
     fi
-
+elif [ $flatpak = "n" ]
+then
+    sleep 0.2
+else
+    echo $inputError
 fi
 # Drivers
 
@@ -85,9 +125,7 @@ then
         sudo apt update
         clear
         echo "Drivers successfully installed."
-    fi
-    
-    if [ $answerg = "2" ]
+    elif [ $answerg = "2" ]
     then
         echo "Installing NVIDIA drivers."
         sudo apt update
@@ -95,8 +133,9 @@ then
         sudo apt update
         clear
         echo "Drivers successfully installed."
+    else
+        echo $inputError
     fi
-
 fi
 
 # Clone and install themes
@@ -111,8 +150,16 @@ then
     echo "Do you want to install the premade theme pack? (y/n)"
     read themechoose
 
-    if [ $themechoose = "1" ]
+    if [ $themechoose = "y" ]
     then
+
+        if ! command -v git &> /dev/null
+        then
+            echo "git could not be found, installing."
+            sudo apt install git
+            clear
+        fi
+
         git clone https://github.com/alvatip/Nordzy-cursors.git && git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-gtk-theme.git && git clone https://github.com/vinceliuice/Colloid-icon-theme.git
         cd Nordzy-cursors
         ./install.sh
@@ -132,7 +179,17 @@ then
 
         clear
         rm -r Nordzy-cursors WhiteSur-gtk-theme Colloid-gtk-theme Colloid-icon-theme
+    elif [ $themechoose = "n" ]
+    then
+        sleep 0.2
+    else
+        echo $inputError
     fi
+elif [ $themes = "n" ]
+then
+    echo "Skipping themes."
+else
+    echo $inputError
 fi
 
 # Update system
@@ -145,4 +202,7 @@ clear
 
 neofetch
 echo "Set-up finished."
-echo "PC Restart recommended."
+if [ $answer = "y" ] | [ $flatpak = "y" ] | [ $softstore = "y" ]
+then
+    echo "PC Restart recommended."
+fi
